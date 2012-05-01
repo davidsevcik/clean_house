@@ -13,11 +13,11 @@ guard 'cucumber' do
   watch(%r{^features/step_definitions/(.+)_steps\.rb$}) { |m| Dir[File.join("**/#{m[1]}.feature")][0] || 'features' }
 end
 
-guard 'jasmine' do
-  watch(%r{spec/javascripts/spec\.(js\.coffee|js|coffee)$})         { "spec/javascripts" }
-  watch(%r{spec/javascripts/.+_spec\.(js\.coffee|js|coffee)$})
-  watch(%r{app/assets/javascripts/(.+?)\.(js\.coffee|js|coffee)$})  { |m| "spec/javascripts/#{m[1]}_spec.#{m[2]}" }
-end
+# guard 'jasmine' do
+#   watch(%r{spec/javascripts/spec\.(js\.coffee|js|coffee)$})         { "spec/javascripts" }
+#   watch(%r{spec/javascripts/.+_spec\.(js\.coffee|js|coffee)$})
+#   watch(%r{app/assets/javascripts/(.+?)\.(js\.coffee|js|coffee)$})  { |m| "spec/javascripts/#{m[1]}_spec.#{m[2]}" }
+# end
 
 guard 'livereload' do
   watch(%r{app/views/.+\.(erb|haml|slim)})
@@ -28,14 +28,10 @@ guard 'livereload' do
   watch(%r{(app|vendor)/assets/\w+/(.+\.(css|js|html)).*})  { |m| "/assets/#{m[2]}" }
 end
 
-guard 'migrate' do
-  watch(%r{^db/migrate/(\d+).+\.rb})
-end
+# guard 'migrate' do
+#   watch(%r{^db/migrate/(\d+).+\.rb})
+# end
 
-
-guard 'migrate' do
-  watch(%r{^db/migrate/(\d+).+\.rb})
-end
 
 
 guard 'rails' do

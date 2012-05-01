@@ -68,5 +68,9 @@ gem "guard-livereload", ">= 0.3.0", :group => :development
 gem "guard-rspec", ">= 0.4.3", :group => :development
 gem "guard-cucumber", ">= 0.6.1", :group => :development
 gem "bootstrap-sass", ">= 2.0.1"
-gem "simple_form"
-gem "will_paginate", ">= 3.0.3"
+# gem "simple_form"
+# gem "will_paginate", ">= 3.0.3"
+
+gem "formtastic", "~> 2.1.1"
+gem 'activeadmin'
+gem "meta_search",    '>= 1.1.0.pre'

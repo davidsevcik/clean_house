@@ -1,11 +1,4 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
-
+# encoding: utf-8
 
 seeds_path = Rails.root.join('db', 'seeds')
 
@@ -28,3 +21,29 @@ File.open(seeds_path.join 'residents.txt').each_line do |line|
   name = line.strip()
   Member.create(name: name, email: "#{name.gsub(' ', '-')}@diamond.way", phone: '123456789', resident: true)
 end
+
+
+workday_queue = CleaningQueue.create(name: "Úklid v pracovní den", system_name: 'workday')
+weekend_queue = CleaningQueue.create(name: "Víkendový úklid", system_name: 'weekend')
+residents_queue = CleaningQueue.create(name: "Služba rezidentů", system_name: 'residents')
+
+
+regular_members = Member.regulars
+
+regular_members.shuffle.each do |member|
+  workday_queue.add_member member
+end
+
+regular_members.shuffle.each do |member|
+  weekend_queue.add_member member
+end
+
+Member.residents.shuffle.each do |member|
+  residents_queue.add_member member
+end
+
+(Date.today..(Date.today + 30)).each do |date|
+  Shift.plan(date)
+end
+
+

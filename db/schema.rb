@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120501115532) do
+ActiveRecord::Schema.define(:version => 20120519165426) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -49,16 +49,22 @@ ActiveRecord::Schema.define(:version => 20120501115532) do
   create_table "cleaning_queues", :force => true do |t|
     t.string   "name"
     t.string   "system_name"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.integer  "last_assigned_position", :default => 0
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
   end
 
   create_table "member_in_queues", :force => true do |t|
     t.integer  "member_id"
-    t.integer  "cleaning_queue_id"
+    t.integer  "queue_id"
     t.integer  "position"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "member_in_shifts", :force => true do |t|
+    t.integer "shift_id"
+    t.integer "member_id"
   end
 
   create_table "members", :force => true do |t|
@@ -70,6 +76,15 @@ ActiveRecord::Schema.define(:version => 20120501115532) do
     t.boolean  "active",     :default => true
     t.datetime "created_at",                    :null => false
     t.datetime "updated_at",                    :null => false
+  end
+
+  create_table "shifts", :force => true do |t|
+    t.string   "name"
+    t.datetime "start_at"
+    t.datetime "end_at"
+    t.boolean  "all_day",    :default => true
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
   end
 
 end

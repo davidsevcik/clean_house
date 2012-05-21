@@ -71,6 +71,8 @@ gem "bootstrap-sass", ">= 2.0.1"
 # gem "simple_form"
 # gem "will_paginate", ">= 3.0.3"
 
+gem 'event-calendar', :require => 'event_calendar', :git => 'git://github.com/smoothcontract/event_calendar.git'
+gem 'acts_as_list'
 gem "formtastic", "~> 2.1.1"
 gem 'activeadmin'
 gem "meta_search",    '>= 1.1.0.pre'

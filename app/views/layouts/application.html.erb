@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="cs">
 <head>
   <title>CleanHouse</title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
@@ -7,8 +7,29 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </a>
+        <a class="brand" href="#">Clean Diamond Way House</a>
+        <div class="nav-collapse">
+          <ul class="nav">
+            <%= content_tag :li, link_to('Kalendář', root_path), :class => (controller.controller_name == 'calendar' ? 'active' : nil) %>
+          </ul>
+          <ul class="nav pull-right">
+            <%= content_tag :li, link_to('Admin', new_session_path), :class => (controller.controller_name == 'login' ? 'active' : nil) %>
+          </ul>
+        </div><!-- /.nav-collapse -->
+      </div>
+    </div><!-- /navbar-inner -->
+  </div>
 
-<%= yield %>
-
+  <div id="main" class="container">
+    <%= yield %>
+  </div>
 </body>
 </html>

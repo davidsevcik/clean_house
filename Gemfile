@@ -8,7 +8,7 @@ gem 'rails', '3.2.3'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3', :group => :development
+gem 'mysql2', :group => :development
 gem 'pg', :group => :production
 
 
@@ -40,6 +40,7 @@ gem 'jquery-rails'
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
+gem 'debugger', :group => :development
 
 gem "rspec-rails", ">= 2.9.0.rc2", :group => [:development, :test]
 gem "factory_girl_rails", ">= 3.2.0", :group => [:development, :test]
@@ -67,12 +68,13 @@ gem "guard-rails", ">= 0.0.3", :group => :development
 gem "guard-livereload", ">= 0.3.0", :group => :development
 gem "guard-rspec", ">= 0.4.3", :group => :development
 gem "guard-cucumber", ">= 0.6.1", :group => :development
-gem "bootstrap-sass", ">= 2.0.1"
+gem "bootstrap-sass"
 # gem "simple_form"
 # gem "will_paginate", ">= 3.0.3"
 
-gem 'event-calendar', :require => 'event_calendar', :git => 'git://github.com/smoothcontract/event_calendar.git'
+gem "watu_table_builder", :require => "table_builder"
 gem 'acts_as_list'
-gem "formtastic", "~> 2.1.1"
-gem 'activeadmin'
-gem "meta_search",    '>= 1.1.0.pre'
+gem 'simple_form'
+# gem "formtastic", "~> 2.1.1"
+# gem 'activeadmin'
+# gem "meta_search",    '>= 1.1.0.pre'

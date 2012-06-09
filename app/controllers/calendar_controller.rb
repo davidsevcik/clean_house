@@ -1,12 +1,14 @@
 class CalendarController < ApplicationController
-  
+
   def index
-    @month = (params[:month] || (Time.zone || Time).now.month).to_i
-    @year = (params[:year] || (Time.zone || Time).now.year).to_i
+    month = (params[:month] || (Time.zone || Time).now.month).to_i
+    year = (params[:year] || (Time.zone || Time).now.year).to_i
 
-    @shown_month = Date.civil(@year, @month)
+    @date = Date.new(year, month)
+    @prev_date = @date.prev_month
+    @next_date = @date.next_month
 
-    @event_strips = Shift.event_strips_for_month(@shown_month)
+    @shifts = Shift.around_month(year, month).includes(:members)
   end
-  
+
 end

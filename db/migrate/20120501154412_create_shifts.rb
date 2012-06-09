@@ -2,9 +2,8 @@ class CreateShifts < ActiveRecord::Migration
   def self.up
     create_table :shifts do |t|
       t.string :name
-      t.datetime :start_at
-      t.datetime :end_at
-      t.boolean :all_day, :default => true
+      t.date :start_at
+      t.date :end_at
       
       t.timestamps
     end

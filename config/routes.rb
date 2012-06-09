@@ -1,9 +1,12 @@
 CleanHouse::Application.routes.draw do
+
+  root :to => 'calendar#index'
+
   match '/calendar(/:year(/:month))' => 'calendar#index', :as => :calendar, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
 
-  ActiveAdmin.routes(self)
+  resources :members
+  resources :sessions
 
-  devise_for :admin_users, ActiveAdmin::Devise.config
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

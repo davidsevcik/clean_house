@@ -80,11 +80,10 @@ ActiveRecord::Schema.define(:version => 20120519165426) do
 
   create_table "shifts", :force => true do |t|
     t.string   "name"
-    t.datetime "start_at"
-    t.datetime "end_at"
-    t.boolean  "all_day",    :default => true
-    t.datetime "created_at",                   :null => false
-    t.datetime "updated_at",                   :null => false
+    t.date     "start_at"
+    t.date     "end_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
 end

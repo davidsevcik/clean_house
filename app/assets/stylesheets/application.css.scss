@@ -1,0 +1,40 @@
+@import "_bootstrap";
+
+body {
+  padding: 50px 0 20px 0;
+}
+
+
+#calendar-header {
+  border: none;
+  margin-bottom: 0;
+
+  a {
+    font-size: 16px;
+    line-height: 16px;
+    position: relative;
+    top: -3px;
+  }
+}
+
+#calendar {
+
+  .cell {
+    position: relative;
+    min-height: 1.5em;
+  }
+  .day {
+    position: absolute;
+    line-height: 1em;
+  }
+  .member {
+    display: block;
+    margin-left: 2.2em;
+  }
+  .notmonth {
+    color: #bfbfbf;
+  }
+  .weekend {
+    border-left: none;
+  }
+}

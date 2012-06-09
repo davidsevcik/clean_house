@@ -1,0 +1,28 @@
+<div class="page-header clearfix">
+  <h1 class="pull-left">Členové centra</h1>
+  <%= link_to 'Nový člen', new_member_path, :class => 'btn btn-primary pull-right' %>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Jméno</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @members.each do |member| %>
+      <tr>
+        <td><%= member.name %></td>
+        <td>
+          <%= link_to 'Upravit', edit_member_path(member) %> |
+          <%= link_to 'Smazat', member, confirm: 'Jste si jisti?', method: :delete %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+

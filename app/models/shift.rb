@@ -1,5 +1,5 @@
 class Shift < ActiveRecord::Base
-  attr_accessible :name, :start_at, :end_at
+  attr_accessible :name, :start_at, :end_at, :member_token_ids
 
   has_many :member_join, :class_name => "MemberInShift", :foreign_key => "shift_id"
   has_many :members, :through => :member_join
@@ -12,9 +12,30 @@ class Shift < ActiveRecord::Base
     where :start_at => (Date.new(year, month) - 6)..(Date.new(year, month, -1) + 6)
   }
 
-  def self.plan(date)
+  after_save :save_members
+
+  def self.auto_plan(date)
     planner = Planner.subclasses.detect {|p| p.applicable?(date) }
     planner.plan(date) if planner
+  end
+
+
+  def member_token_ids
+    member_ids.join(',')
+  end
+
+  def member_token_ids=(str)
+    @member_ids = str.split(',').map(&:to_i)
+    # puts "TOKENS: " + str
+    # members += str.split(',').map {|id| Member.find(id) }
+  end
+
+
+  private
+
+  def save_members
+    puts "SAVE MEMBERS " + @member_ids.inspect
+    self.member_ids = @member_ids
   end
 
 end

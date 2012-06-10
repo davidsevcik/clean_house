@@ -1,0 +1,32 @@
+<div id="calendar-header" class="page-header clearfix">
+  <h1 class="pull-left">Kalendář úklidů</h1>
+
+  <h2 class="pull-right">
+    <%= link_to '&lt;'.html_safe, shifts_path(year: @prev_date.year, month: @prev_date.month), :class => 'btn btn-small' %>
+    <%= I18n.l @date, format: '%B %Y' %>
+    <%= link_to '&gt;'.html_safe, shifts_path(year: @next_date.year, month: @next_date.month), :class => 'btn btn-small' %>
+  </h2>
+</div>
+
+
+
+<%= calendar_for(@shifts, first_day_of_week: 1, year: @date.year, month: @date.month,
+  html: {id: 'calendar', class: 'table table-bordered'}) do |t| %>
+  <%= t.head *(I18n.t('date.abbr_day_names')[1..-1] + [I18n.t('date.abbr_day_names')[0]]) %>
+  <%= t.day(day_method: 'start_at') do |date, shifts| %>
+    <div class="cell">
+      <h3 class="day"><%= date.day %></h3>
+      <% shift = shifts.first %>
+      <% if shift %>
+        <% shift.members.each do |member| %>
+          <span class="member"><%= member.name %></span>
+        <% end %>
+      <% end -%>
+      <% if shift && user_logged_in? %>
+        <span class="member"><%= link_to 'Upravit', edit_shift_path(shift) %></span>
+      <% elsif user_logged_in? %>
+        <span class="member"><%= link_to 'Naplánovat', new_shift_path(start_at: date) %></span>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

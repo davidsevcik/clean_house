@@ -44,7 +44,7 @@ end
 
 start = Date.new(2012, 9)
 (start..(start + 90)).each do |date|
-  Shift.plan(date)
+  Shift.auto_plan(date)
 end
 
 

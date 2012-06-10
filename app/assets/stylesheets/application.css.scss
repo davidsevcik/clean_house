@@ -1,4 +1,5 @@
 @import "_bootstrap";
+@import "token-input";
 
 body {
   padding: 50px 0 20px 0;
@@ -37,4 +38,16 @@ body {
   .weekend {
     border-left: none;
   }
+}
+
+select.date {
+  width: 7em;
+}
+select.date:first-child {
+  width: 4em;
+}
+
+ul.token-input-list {
+  position: relative;
+  top: -2em;
 }

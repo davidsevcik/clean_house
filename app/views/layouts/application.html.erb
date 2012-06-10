@@ -15,7 +15,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </a>
-        <a class="brand" href="#">Clean Diamond Way House</a>
+        <%= link_to 'Clean Diamond Way House', root_path, class: 'brand' %>
         <div class="nav-collapse">
           <ul class="nav">
             <%= content_tag :li, link_to('Kalendář', root_path), :class => (controller.controller_name == 'calendar' ? 'active' : nil) %>

@@ -4,5 +4,4 @@ class Member < ActiveRecord::Base
 
   scope :regulars, where(:active => true, :resident => false)
   scope :residents, where(:active => true, :resident => true)
-
 end

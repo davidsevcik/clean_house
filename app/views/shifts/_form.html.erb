@@ -1,0 +1,13 @@
+<%= simple_form_for @shift, html: {class: 'form-horizontal'} do |f| %>
+  <%= f.input :start_at, label: 'Den začátku' %>
+  <%= f.input :start_at, label: 'Den konce' %>
+  <%= f.input :member_token_ids, label: 'Uklízecí četa' %>
+
+  <div class="form-actions">
+    <%= f.button :submit, value: 'Uložit', class: 'btn btn-primary' %>
+    <% unless @shift.new_record? %>
+      <%= link_to 'Smazat', shift_path(@shift), method: :delete, confirm: 'Opravdu smazat?', class: 'btn btn-danger'  %>
+    <% end -%>
+    <%= link_to 'Storno', session[:return_url] || shifts_path, class: 'btn' %>
+  </div>
+<% end %>

@@ -1,3 +1,4 @@
+# encoding: utf-8
 class UserSessionsController < ApplicationController
 
   def new
@@ -8,9 +9,15 @@ class UserSessionsController < ApplicationController
   def create
     @session = UserSession.new(params[:user_session])
       if @session.valid?
-        redirect_to @member, notice: 'Member was successfully created.'
+        user_login
+        redirect_to members_path, notice: 'Přihlášení bylo úspěšné.'
       else
         render action: "new"
       end
+  end
+
+  def destroy
+    user_logout
+    redirect_to root_path
   end
 end

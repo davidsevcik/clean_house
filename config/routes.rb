@@ -5,7 +5,7 @@ CleanHouse::Application.routes.draw do
   match '/calendar(/:year(/:month))' => 'calendar#index', :as => :calendar, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
 
   resources :members
-  resources :sessions
+  resources :user_sessions
 
 
   # The priority is based upon order of creation:

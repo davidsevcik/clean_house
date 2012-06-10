@@ -26,8 +26,6 @@ class Shift < ActiveRecord::Base
 
   def member_token_ids=(str)
     @member_ids = str.split(',').map(&:to_i)
-    # puts "TOKENS: " + str
-    # members += str.split(',').map {|id| Member.find(id) }
   end
 
 

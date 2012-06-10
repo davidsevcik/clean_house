@@ -5,6 +5,7 @@ class MembersController < ApplicationController
 
   def index
     @members = Member.order(:name)
+    @members = @members.in_scope(params[:scope]) if params[:scope]
     respond_with @members
   end
 

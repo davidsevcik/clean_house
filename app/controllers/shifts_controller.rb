@@ -17,13 +17,11 @@ class ShiftsController < ApplicationController
   def new
     @shift = Shift.new
     @shift.start_at = @shift.end_at = params[:start_at] if params[:start_at]
-    session[:return_url] = request.referer
   end
 
 
   def edit
     @shift = Shift.find(params[:id])
-    session[:return_url] = request.referer
   end
 
 
@@ -31,7 +29,7 @@ class ShiftsController < ApplicationController
     @shift = Shift.new(params[:shift])
 
     if @shift.save
-      redirect_to session.delete(:return_url) || shifts_path, notice: "Směna přidána."
+      redirect_to return_or(shifts_path), notice: "Směna přidána."
     else
       render action: "new"
     end
@@ -42,7 +40,7 @@ class ShiftsController < ApplicationController
     @shift = Shift.find(params[:id])
 
     if @shift.update_attributes(params[:shift])
-      redirect_to session.delete(:return_url) || shifts_path, notice: "Směna upravena."
+      redirect_to return_or(shifts_path), notice: "Směna upravena."
     else
       render action: "edit"
     end
@@ -53,7 +51,9 @@ class ShiftsController < ApplicationController
     @shift = Shift.find(params[:id])
     @shift.destroy
 
-    redirect_to shifts_url, notice: "Směna smazána."
+    redirect_to return_or(shifts_path), notice: "Směna smazána."
   end
+
+
 end
 

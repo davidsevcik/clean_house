@@ -75,6 +75,7 @@ gem "bootstrap-sass"
 gem "watu_table_builder", :require => "table_builder"
 gem 'acts_as_list'
 gem 'simple_form'
+gem 'pony'
 # gem "formtastic", "~> 2.1.1"
 # gem 'activeadmin'
 # gem "meta_search",    '>= 1.1.0.pre'

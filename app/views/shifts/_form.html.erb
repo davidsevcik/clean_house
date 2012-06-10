@@ -1,6 +1,6 @@
 <%= simple_form_for @shift, html: {class: 'form-horizontal'} do |f| %>
-  <%= f.input :start_at, label: 'Den začátku' %>
-  <%= f.input :start_at, label: 'Den konce' %>
+  <%= f.input :start_at, label: 'Začátek' %>
+  <%= f.input :end_at, label: 'Konec' %>
   <%= f.input :member_token_ids, label: 'Uklízecí četa' %>
 
   <div class="form-actions">
@@ -8,6 +8,6 @@
     <% unless @shift.new_record? %>
       <%= link_to 'Smazat', shift_path(@shift), method: :delete, confirm: 'Opravdu smazat?', class: 'btn btn-danger'  %>
     <% end -%>
-    <%= link_to 'Storno', session[:return_url] || shifts_path, class: 'btn' %>
+    <%= link_to 'Storno', return_or(shifts_path), class: 'btn' %>
   </div>
 <% end %>

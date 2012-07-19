@@ -42,7 +42,7 @@ Member.residents.shuffle.each do |member|
   residents_queue.add_member member
 end
 
-start = Date.new(2012, 9)
+start = Date.today #new(2012, 9)
 (start..(start + 90)).each do |date|
   Shift.auto_plan(date)
 end

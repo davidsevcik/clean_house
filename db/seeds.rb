@@ -4,22 +4,22 @@ seeds_path = Rails.root.join('db', 'seeds')
 
 File.open(seeds_path.join 'women.txt').each_line do |line|
   name = line.strip()
-  Member.create(name: name, email: "#{name.gsub(' ', '-')}@diamond.way", phone: '123456789', woman: true)
+  Member.create(name: name, email: "david.sevcik@gmail.com", phone: '123456789', woman: true)
 end
 
 File.open(seeds_path.join 'men.txt').each_line do |line|
   name = line.strip()
-  Member.create(name: name, email: "#{name.gsub(' ', '-')}@diamond.way", phone: '123456789', woman: false)
+  Member.create(name: name, email: "david.sevcik@gmail.com", phone: '123456789', woman: false)
 end
 
 File.open(seeds_path.join 'unactive.txt').each_line do |line|
   name = line.strip()
-  Member.create(name: name, email: "#{name.gsub(' ', '-')}@diamond.way", phone: '123456789', active: false)
+  Member.create(name: name, email: "david.sevcik@gmail.com", phone: '123456789', active: false)
 end
 
 File.open(seeds_path.join 'residents.txt').each_line do |line|
   name = line.strip()
-  Member.create(name: name, email: "#{name.gsub(' ', '-')}@diamond.way", phone: '123456789', resident: true)
+  Member.create(name: name, email: "david.sevcik@gmail.com", phone: '123456789', resident: true)
 end
 
 

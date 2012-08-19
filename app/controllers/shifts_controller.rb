@@ -55,5 +55,18 @@ class ShiftsController < ApplicationController
   end
 
 
+  def regenerate
+    MemberInShift.delete_all
+    Shift.delete_all
+    from = Date.new(params[:from][:year].to_i, params[:from][:month].to_i, params[:from][:day].to_i)
+    to = Date.new(params[:to][:year].to_i, params[:to][:month].to_i, params[:to][:day].to_i)
+
+    (from..to).each do |date|
+      Shift.auto_plan(date)
+    end
+    redirect_to shifts_path
+  end
+
+
 end
 

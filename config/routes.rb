@@ -4,7 +4,11 @@ CleanHouse::Application.routes.draw do
 
   resources :user_sessions
   resources :members
-  resources :shifts
+  resources :shifts do
+    collection do
+      post 'regenerate'
+    end
+  end
 
 
   # The priority is based upon order of creation:

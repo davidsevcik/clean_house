@@ -1,4 +1,6 @@
 Pony.options = {
+  :from => 'no-reply@clean-house.herokuapp.com',
+  :bcc => 'david.sevcik@gmail.com',
   :charset => 'utf-8',
   :via => :smtp,
   :via_options => {

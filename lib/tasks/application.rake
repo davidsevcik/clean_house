@@ -6,39 +6,27 @@ task :auto_plan => :environment do
 end
 
 task :send_reminders => :environment do
-  #next week
-  shift = Shift.find_by_start_at(Date.today + 7)
-  if shift
-    emails = shift.members.map(&:email).reject(&:blank?)
-    names = shift.members.map(&:name).join(', ')
-    unless emails.empty?
-      Pony.mail(
-        to: emails,
-        subject: "Za týden máš úklid v centru",
-        body: "Ahoj,\n\n" +
-          "za týden - #{I18n.l shift.start_at} máš úklid v brněnském buddhistickém centru " +
-          "v rámci skupinky: #{names}.\n\n" +
-          "S přáním pěkného dne,\n" +
-          "Tvůj připomínkový robot"
-      )
+
+  body = "Ahoj,\n\n" +
+    "%s - %s máš úklid v brněnském buddhistickém centru " +
+    "v rámci skupinky: %s.\n\n" +
+    "S přáním pěkného dne,\n" +
+    "Tvůj připomínkový robot"
+
+  {(Date.today + 7) => 'za týden', (Date.today + 1) => 'zítra'}.each_pair do |date, label|
+    shift = Shift.find_by_start_at(date)
+    if shift
+      emails = shift.members.map(&:email).reject(&:blank?)
+      member_names = shift.members.map(&:name).join(', ')
+      dates = shift.start_at == shift.end_at ? I18n.l(shift.start_at) : "od #{I18n.l(shift.start_at)} do #{I18n.l(shift.end_at)}"
+      unless emails.empty?
+        Pony.mail(
+          to: emails,
+          subject: "#{label.capitalize} máš úklid v centru",
+          body: body % [label, dates, member_names]
+        )
+      end
     end
   end
 
-  #tomorow
-  shift = Shift.find_by_start_at(Date.today + 1)
-  if shift
-    emails = shift.members.map(&:email).reject(&:blank?)
-    names = shift.members.map(&:name).join(', ')
-    unless emails.empty?
-      Pony.mail(
-        to: emails,
-        subject: "Zítra máš úklid v centru",
-        body: "Ahoj,\n\n" +
-          "zítra - #{I18n.l shift.start_at} máš úklid v brněnském buddhistickém centru " +
-          "v rámci skupinky: #{names}.\n\n" +
-          "S přáním pěkného dne,\n" +
-          "Tvůj připomínkový robot"
-      )
-    end
-  end
 end

@@ -30,3 +30,15 @@
     </div>
   <% end %>
 <% end %>
+
+<% if user_logged_in? %>
+<div class="well">
+  <%= form_tag :action => 'regenerate' do %>
+    <h2>Přegenerovat naplánované úklidy</h2>
+    <label>Od</label> <%= select_date @date, prefix: 'from' %>
+    <label>Do</label> <%= select_date (@date + 30), prefix: 'to' %>
+    <p><strong>Pozor!!! Všechny naplánované úklidy budou smazány a vygenerovány znovu.</strong></p>
+    <button type="submit" class="btn btn-danger">Přegenerovat</button>
+  <% end %>
+</div>
+<% end %>

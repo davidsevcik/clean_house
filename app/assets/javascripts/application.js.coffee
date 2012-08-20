@@ -15,3 +15,7 @@
 #= require bootstrap
 #= require jquery.tokeninput
 #= require_tree .
+
+
+$ ->
+  $('.weekend').prev().filter(':not(.weekend)').attr('colspan', '3').addClass('joined')

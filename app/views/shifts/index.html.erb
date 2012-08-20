@@ -15,8 +15,8 @@
   <%= t.head *(I18n.t('date.abbr_day_names')[1..-1] + [I18n.t('date.abbr_day_names')[0]]) %>
   <%= t.day(day_method: 'start_at') do |date, shifts| %>
     <div class="cell">
-      <h3 class="day"><%= date.day %></h3>
       <% shift = shifts.first %>
+      <h3 class="day"><%= (shift.nil? || shift.start_at == shift.end_at) ? date.day : "#{shift.start_at.day}-#{shift.end_at.day}" %></h3>
       <% if shift %>
         <% shift.members.each do |member| %>
           <span class="member"><%= member.name %></span>

@@ -32,11 +32,14 @@ body {
     display: block;
     margin-left: 2.2em;
   }
+  .joined .member {
+    margin-left: 4.2em;
+  }
   .notmonth {
     color: #bfbfbf;
   }
   .weekend {
-    border-left: none;
+    display: none;
   }
 }
 

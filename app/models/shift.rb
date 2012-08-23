@@ -1,7 +1,7 @@
 class Shift < ActiveRecord::Base
   attr_accessible :name, :start_at, :end_at, :member_token_ids
 
-  has_many :member_join, :class_name => "MemberInShift", :foreign_key => "shift_id"
+  has_many :member_join, :class_name => "MemberInShift", :foreign_key => "shift_id", :dependent => :delete_all
   has_many :members, :through => :member_join
 
   scope :for_month, lambda { |year, month|
@@ -71,7 +71,8 @@ class WeekendPlanner < Planner
   end
 
   def self.plan(date)
-    queue = CleaningQueue.find_by_system_name('weekend')
+    # queue = CleaningQueue.find_by_system_name('weekend') ONLY ONE QUEUE
+    queue = CleaningQueue.find_by_system_name('workday')
     shift = Shift.create(:name => queue.name, :start_at => date, :end_at => date + 2)
     shift.members = queue.cycle_members(5)
     shift.members << CleaningQueue.find_by_system_name('residents').cycle_members(1)

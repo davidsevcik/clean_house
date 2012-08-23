@@ -3,6 +3,7 @@
 
 body {
   padding: 50px 0 20px 0;
+  margin: 0;
 }
 
 
@@ -53,4 +54,11 @@ select.date:first-child {
 ul.token-input-list {
   position: relative;
   top: -2em;
+}
+
+
+@media print {
+  body {
+    padding: 0;
+  }
 }

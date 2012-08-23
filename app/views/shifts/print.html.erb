@@ -1,0 +1,21 @@
+<% [@date, @date.next_month].each do |ref_date| %>
+  <h2>
+    <%= I18n.l ref_date, format: '%B %Y' %>
+  </h2>
+  <%= calendar_for(Shift.for_month(ref_date.year, ref_date.month).includes(:members),
+    first_day_of_week: 1, year: ref_date.year, month: ref_date.month,
+    html: {id: 'calendar', class: 'table table-bordered clearfix'}) do |t| %>
+    <%= t.head *(I18n.t('date.abbr_day_names')[1..-1] + [I18n.t('date.abbr_day_names')[0]]) %>
+    <%= t.day(day_method: 'start_at') do |date, shifts| %>
+      <div class="cell">
+        <% shift = shifts.first %>
+        <h3 class="day"><%= (shift.nil? || shift.start_at == shift.end_at) ? date.day : "#{shift.start_at.day}-#{shift.end_at.day}" %></h3>
+        <% if shift %>
+          <% shift.members.each do |member| %>
+            <span class="member"><%= member.name %></span>
+          <% end %>
+        <% end -%>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

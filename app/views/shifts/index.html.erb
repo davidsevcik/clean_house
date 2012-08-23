@@ -41,4 +41,10 @@
     <button type="submit" class="btn btn-danger">Přegenerovat</button>
   <% end %>
 </div>
+
+<div class="well">
+  <h2>Tisknout rozpis</h2>
+  <p><strong><%= I18n.l @date, format: '%B %Y' %> - <%= I18n.l @next_date, format: '%B %Y' %></strong></p>
+  <%= link_to 'Tisk', print_shifts_path(year: @date.year, month: @date.month), :class => "btn btn-primary" %>
+</div>
 <% end %>

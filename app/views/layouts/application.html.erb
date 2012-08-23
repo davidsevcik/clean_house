@@ -5,35 +5,35 @@
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
+  <% if params[:action] == 'print' %>
+    <script type="text/javascript">$(function() { window.print(); });</script>
+  <% end %>
 </head>
 <body>
-  <div class="navbar navbar-fixed-top">
-    <div class="navbar-inner">
-      <div class="container">
-        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </a>
-        <%= link_to 'Clean Diamond Way House', root_path, class: 'brand' %>
-        <div class="nav-collapse">
-          <ul class="nav">
-            <%= content_tag :li, link_to('Kalendář', root_path), :class => (params[:controller] == 'shifts' && params[:action] != 'print' ? 'active' : nil) %>
-            <% if user_logged_in? %>
-              <%= content_tag :li, link_to('Členové', members_path), :class => (params[:controller] == 'members' ? 'active' : nil) %>
-            <% end -%>
-          </ul>
-          <ul class="nav pull-right">
-            <% if user_logged_in? %>
-              <%= content_tag :li, link_to('Odhlásit', user_session_path(108), method: :delete) %>
-            <% else %>
-              <%= content_tag :li, link_to('Admin', new_user_session_path), :class => (controller.controller_name == 'user_sessions' ? 'active' : nil) %>
-            <% end -%>
-          </ul>
-        </div><!-- /.nav-collapse -->
-      </div>
-    </div><!-- /navbar-inner -->
-  </div>
+  <% unless params[:action] == 'print' %>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <%= link_to 'Clean Diamond Way House', root_path, class: 'brand' %>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <%= content_tag :li, link_to('Kalendář', root_path), :class => (params[:controller] == 'shifts' && params[:action] != 'print' ? 'active' : nil) %>
+              <% if user_logged_in? %>
+                <%= content_tag :li, link_to('Členové', members_path), :class => (params[:controller] == 'members' ? 'active' : nil) %>
+              <% end -%>
+            </ul>
+            <ul class="nav pull-right">
+              <% if user_logged_in? %>
+                <%= content_tag :li, link_to('Odhlásit', user_session_path(108), method: :delete) %>
+              <% else %>
+                <%= content_tag :li, link_to('Admin', new_user_session_path), :class => (controller.controller_name == 'user_sessions' ? 'active' : nil) %>
+              <% end -%>
+            </ul>
+          </div><!-- /.nav-collapse -->
+        </div>
+      </div><!-- /navbar-inner -->
+    </div>
+  <% end %>
 
   <div id="main" class="container">
     <%= flash_message %>

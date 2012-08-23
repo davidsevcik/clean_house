@@ -7,6 +7,7 @@ CleanHouse::Application.routes.draw do
   resources :shifts do
     collection do
       post 'regenerate'
+      get 'print'
     end
   end
 

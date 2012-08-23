@@ -64,10 +64,10 @@ class ShiftsController < ApplicationController
       workday_queue.add_member member
     end
 
-    weekend_queue = CleaningQueue.find_by_system_name 'weekend'
-    Member.regulars.shuffle.each do |member|
-      weekend_queue.add_member member
-    end
+    # weekend_queue = CleaningQueue.find_by_system_name 'weekend'
+    # Member.regulars.shuffle.each do |member|
+    #   weekend_queue.add_member member
+    # end
 
     residents_queue = CleaningQueue.find_by_system_name 'residents'
     Member.residents.shuffle.each do |member|
@@ -82,6 +82,13 @@ class ShiftsController < ApplicationController
       Shift.auto_plan(date)
     end
     redirect_to shifts_path
+  end
+
+
+  def print
+    month = (params[:month] || (Time.zone || Time).now.month).to_i
+    year = (params[:year] || (Time.zone || Time).now.year).to_i
+    @date = Date.new(year, month)
   end
 
 

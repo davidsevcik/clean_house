@@ -17,7 +17,8 @@
         <td>
           <%= member.name %>
           <% if member.resident? %><span class="label label-success">REZIDENT</span><% end %>
-          <% if member.email.blank? && member.active? %><span class="label label-important">BEZ EMAILU</span><% end %>
+          <% if member.email.blank? && member.active? %><span class="label label-important">CHYBÍ EMAIL</span><% end %>
+          <% if member.phone.blank? && member.active? %><span class="label label-important">CHYBÍ TELEFON</span><% end %>
         </td>
         <td>
           <%= link_to 'Upravit', edit_member_path(member) %> |
@@ -27,6 +28,3 @@
     <% end %>
   </tbody>
 </table>
-
-
-

@@ -14,7 +14,11 @@
   <tbody>
     <% @members.each do |member| %>
       <tr class="<%= member.active? ? 'active' : 'inactive' %>">
-        <td><%= member.name %> <% if member.resident? %><span class="label label-success">REZIDENT</span><% end %></td>
+        <td>
+          <%= member.name %>
+          <% if member.resident? %><span class="label label-success">REZIDENT</span><% end %>
+          <% if member.email.blank? && member.active? %><span class="label label-important">BEZ EMAILU</span><% end %>
+        </td>
         <td>
           <%= link_to 'Upravit', edit_member_path(member) %> |
           <%= link_to 'Smazat', member, confirm: 'Opravdu smazat?', method: :delete %>

@@ -13,7 +13,7 @@
 
   <tbody>
     <% @members.each do |member| %>
-      <tr>
+      <tr class="<%= member.active? ? 'active' : 'inactive' %>">
         <td><%= member.name %></td>
         <td>
           <%= link_to 'Upravit', edit_member_path(member) %> |

@@ -32,8 +32,7 @@ class Shift < ActiveRecord::Base
   private
 
   def save_members
-    puts "SAVE MEMBERS " + @member_ids.inspect
-    self.member_ids = @member_ids
+    self.member_ids = @member_ids unless @member_ids.nil?
   end
 
 end

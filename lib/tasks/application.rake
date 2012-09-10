@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 task :auto_plan => :environment do
-  date = Shift.order(:start_at).last.start_at + 1
+  date = Shift.order(:end_at).last.end_at + 1
   Shift.auto_plan(date)
 end
 

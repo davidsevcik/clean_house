@@ -1,8 +1,14 @@
 # encoding: utf-8
 
-task :auto_plan => :environment do
-  date = Shift.order(:end_at).last.end_at + 1
-  Shift.auto_plan(date)
+task :auto_plan, [:start_date, :end_date] => :environment do |t, args|
+  if (args.start_date && args.end_date) || (ENV['start'] && ENV['end'])
+    (Date.parse(ENV['start'] || args.start_date)..(Date.parse(ENV['end'] || args.end_date))).each do |date|
+      Shift.auto_plan(date)
+    end
+  else
+    date = Shift.order(:end_at).last.end_at + 1
+    Shift.auto_plan(date)
+  end
 end
 
 task :send_reminders, [:date] => :environment do |t, args|

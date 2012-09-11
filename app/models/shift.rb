@@ -57,9 +57,18 @@ class WorkdayPlanner < Planner
   end
 
   def self.plan(date)
-    queue = CleaningQueue.find_by_system_name('workday')
-    shift = Shift.create(:name => queue.name, :start_at => date, :end_at => date)
-    shift.members = queue.cycle_members(2)
+    # queue = CleaningQueue.find_by_system_name('workday')
+    # shift = Shift.create(:name => queue.name, :start_at => date, :end_at => date)
+    # shift.members = queue.cycle_members(2)
+
+    shift = Shift.create(start_at: date, end_at: date)
+
+    {
+      CleaningQueue.find_by_system_name('womens') => Member.regulars.women,
+      CleaningQueue.find_by_system_name('mens') => Member.regulars.men
+    }.each_pair do |queue, members|
+      shift.members << queue.next_member(members)
+    end
   end
 end
 
@@ -71,9 +80,21 @@ class WeekendPlanner < Planner
 
   def self.plan(date)
     # queue = CleaningQueue.find_by_system_name('weekend') ONLY ONE QUEUE
-    queue = CleaningQueue.find_by_system_name('workday')
-    shift = Shift.create(:name => queue.name, :start_at => date, :end_at => date + 2)
-    shift.members = queue.cycle_members(5)
-    shift.members << CleaningQueue.find_by_system_name('residents').cycle_members(1)
+    # queue = CleaningQueue.find_by_system_name('workday')
+    # shift = Shift.create(:name => queue.name, :start_at => date, :end_at => date + 2)
+    # shift.members = queue.cycle_members(5)
+    # shift.members << CleaningQueue.find_by_system_name('residents').cycle_members(1)
+
+    shift = Shift.create(start_at: date, end_at: date + 2)
+    resident = CleaningQueue.find_by_system_name('residents').next_member(Member.residents)
+    shift.members << resident
+
+    (2 - (resident.woman? ? 1 : 0)).times do
+      shift.members << CleaningQueue.find_by_system_name('womens').next_member(Member.regulars.women)
+    end
+
+    (4 - (resident.woman? ? 0 : 1)).times do
+      shift.members << CleaningQueue.find_by_system_name('mens').next_member(Member.regulars.men)
+    end
   end
 end

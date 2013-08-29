@@ -11,6 +11,19 @@ class Member < ActiveRecord::Base
   scope :men, where(:woman => false)
   scope :women, where(:woman => true)
 
+
+  after_create do
+    CleaningQueue.all.each {|q| q.member_created(self) }
+  end
+
+  after_update do
+    CleaningQueue.all.each {|q| q.member_updated(self) }
+  end
+
+  before_destroy do
+    CleaningQueue.all.each {|q| q.member_destroyed(self) }
+  end
+
   def self.in_scope(name)
     send name if SCOPES.include?(name.to_sym)
   end

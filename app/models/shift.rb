@@ -14,11 +14,6 @@ class Shift < ActiveRecord::Base
 
   after_save :save_members
 
-  def self.auto_plan(date)
-    planner = Planner.subclasses.detect {|p| p.applicable?(date) }
-    planner.plan(date) if planner
-  end
-
 
   def member_token_ids
     member_ids.join(',')
@@ -35,66 +30,4 @@ class Shift < ActiveRecord::Base
     self.member_ids = @member_ids unless @member_ids.nil?
   end
 
-end
-
-
-class Planner
-  class << self
-    def applicable?(context)
-      false
-    end
-
-    def plan(context)
-      raise "Have to be implemented"
-    end
-  end
-end
-
-
-class WorkdayPlanner < Planner
-  def self.applicable?(date)
-    (1..4).include? date.wday
-  end
-
-  def self.plan(date)
-    # queue = CleaningQueue.find_by_system_name('workday')
-    # shift = Shift.create(:name => queue.name, :start_at => date, :end_at => date)
-    # shift.members = queue.cycle_members(2)
-
-    shift = Shift.create(start_at: date, end_at: date)
-
-    {
-      CleaningQueue.find_by_system_name('womens') => Member.regulars.women,
-      CleaningQueue.find_by_system_name('mens') => Member.regulars.men
-    }.each_pair do |queue, members|
-      shift.members << queue.next_member(members)
-    end
-  end
-end
-
-
-class WeekendPlanner < Planner
-  def self.applicable?(date)
-    date.wday == 5
-  end
-
-  def self.plan(date)
-    # queue = CleaningQueue.find_by_system_name('weekend') ONLY ONE QUEUE
-    # queue = CleaningQueue.find_by_system_name('workday')
-    # shift = Shift.create(:name => queue.name, :start_at => date, :end_at => date + 2)
-    # shift.members = queue.cycle_members(5)
-    # shift.members << CleaningQueue.find_by_system_name('residents').cycle_members(1)
-
-    shift = Shift.create(start_at: date, end_at: date + 2)
-    resident = CleaningQueue.find_by_system_name('residents').next_member(Member.residents)
-    shift.members << resident
-
-    (2 - (resident.woman? ? 1 : 0)).times do
-      shift.members << CleaningQueue.find_by_system_name('womens').next_member(Member.regulars.women)
-    end
-
-    (4 - (resident.woman? ? 0 : 1)).times do
-      shift.members << CleaningQueue.find_by_system_name('mens').next_member(Member.regulars.men)
-    end
-  end
 end

@@ -56,30 +56,14 @@ class ShiftsController < ApplicationController
 
 
   def regenerate
-    # MemberInShift.delete_all
-    MemberInQueue.delete_all
-
-    workday_queue = CleaningQueue.find_by_system_name 'workday'
-    Member.regulars.shuffle.each do |member|
-      workday_queue.add_member member
-    end
-
-    # weekend_queue = CleaningQueue.find_by_system_name 'weekend'
-    # Member.regulars.shuffle.each do |member|
-    #   weekend_queue.add_member member
-    # end
-
-    residents_queue = CleaningQueue.find_by_system_name 'residents'
-    Member.residents.shuffle.each do |member|
-      residents_queue.add_member member
-    end
-
     from = Date.new(params[:from][:year].to_i, params[:from][:month].to_i, params[:from][:day].to_i)
     to = Date.new(params[:to][:year].to_i, params[:to][:month].to_i, params[:to][:day].to_i)
-    Shift.destroy_all(["start_at >= ? AND end_at <= ?", from, to])
+
+    Shift.where('start_at >= ?', from).delete_all
 
     (from..to).each do |date|
-      Shift.auto_plan(date)
+      # puts "Plannning #{date.to_s}"
+      Planner.auto_plan(date)
     end
     redirect_to shifts_path
   end

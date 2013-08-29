@@ -4,10 +4,11 @@
 #   Ensure the SQLite 3 gem is defined in your Gemfile
 #   gem 'sqlite3'
 development:
-  adapter: mysql2
+  adapter: postgresql
+  pool: 5
   database: clean_house_devel
-  username: root
-  password: root
+  username: david
+  password:
   host: localhost
   encoding: utf8
   timeout: 5000
@@ -16,10 +17,11 @@ development:
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test: &test
-  adapter: mysql2
+  adapter: postgresql
+  pool: 5
   database: clean_house_test
-  username: root
-  password: root
+  username: david
+  password:
   host: localhost
   encoding: utf8
 

@@ -3,13 +3,13 @@ HOST_OS = RbConfig::CONFIG['host_os']
 
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.3'
+gem 'rails', '3.2.12'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'mysql2', :group => :development
-gem 'pg', :group => :production
+# gem 'mysql2', :group => :development
+gem 'pg'
 
 
 # Gems used only for assets and not required
@@ -40,7 +40,7 @@ gem 'jquery-rails'
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
-gem 'debugger', :group => :development
+# gem 'debugger', :group => :development
 
 gem "rspec-rails", ">= 2.9.0.rc2", :group => [:development, :test]
 gem "factory_girl_rails", ">= 3.2.0", :group => [:development, :test]
@@ -49,11 +49,11 @@ gem "cucumber-rails", ">= 1.3.0", :group => :test
 gem "capybara", ">= 1.1.2", :group => :test
 gem "database_cleaner", ">= 0.7.2", :group => :test
 gem "launchy", ">= 2.1.0", :group => :test
-gem "guard", ">= 0.6.2", :group => :development  # need newline here!
+
 # case HOST_OS
 #   when /darwin/i
-    gem 'rb-fsevent', :group => :development
-    gem 'growl', :group => :development
+    # gem 'rb-fsevent', :group => :development
+    # gem 'growl', :group => :development
 #   when /linux/i
 #     gem 'libnotify', :group => :development
 #     gem 'rb-inotify', :group => :development
@@ -63,11 +63,18 @@ gem "guard", ">= 0.6.2", :group => :development  # need newline here!
 #     gem 'rb-notifu', :group => :development
 # end
 
-gem "guard-bundler", ">= 0.1.3", :group => :development
-gem "guard-rails", ">= 0.0.3", :group => :development
-gem "guard-livereload", ">= 0.3.0", :group => :development
-gem "guard-rspec", ">= 0.4.3", :group => :development
-gem "guard-cucumber", ">= 0.6.1", :group => :development
+group :development do
+  # gem "guard", ">= 0.6.2"
+  # gem "guard-bundler", ">= 0.1.3"
+  # gem "guard-rails", ">= 0.0.3"
+  # gem "guard-livereload", ">= 0.3.0"
+  # gem "guard-rspec", ">= 0.4.3"
+  # gem "guard-cucumber", ">= 0.6.1"
+  gem 'pry'
+  gem 'pry-nav'
+  gem 'pry-rails'
+end
+
 gem "bootstrap-sass"
 # gem "simple_form"
 # gem "will_paginate", ">= 3.0.3"

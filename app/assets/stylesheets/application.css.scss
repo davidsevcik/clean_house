@@ -1,4 +1,4 @@
-@import "_bootstrap";
+@import "bootstrap";
 @import "token-input";
 
 body {
@@ -20,6 +20,7 @@ body {
 }
 
 #calendar {
+  font-size: 13px;
 
   .cell {
     position: relative;
@@ -44,6 +45,10 @@ body {
   }
   .today {
     background-color: #ffff9e;
+  }
+  h3 {
+    font-size: 18px;
+    margin: 2px 0;
   }
 }
 

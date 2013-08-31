@@ -26,6 +26,15 @@ test: &test
   encoding: utf8
 
 production:
+  adapter: postgresql
+  pool: 5
+  database: clean_house_prod
+  username: david
+  password:
+  host: localhost
+  encoding: utf8
+  timeout: 5000
+
 
 cucumber:
   <<: *test

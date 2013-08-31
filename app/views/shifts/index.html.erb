@@ -47,4 +47,9 @@
   <p><strong><%= I18n.l @date, format: '%B %Y' %> - <%= I18n.l @next_date, format: '%B %Y' %></strong></p>
   <%= link_to 'Tisk', print_shifts_path(year: @date.year, month: @date.month), :class => "btn btn-primary" %>
 </div>
+
+<% else %>
+<div class="well">
+  <h3><a href="https://docs.google.com/spreadsheet/ccc?key=0AjuVwLmePnItdF94Q0NwRF8xTG5wR3ZrUzZ6S2stbUE#gid=2" target="_blank">Návod na uklízení</a></h3>
+</div>
 <% end %>

@@ -32,6 +32,10 @@ class Planner
           skipped_ids << selected_ids.slice!(-1)
           selected_ids << queue.member_ids.shift
         end
+
+        if previous_selected_ids == selected_ids && selected_ids.size < number_of_people
+          selected_ids += skipped_ids.shift(number_of_people - selected_ids.size)
+        end
         members = Member.find(selected_ids)
       end while previous_selected_ids != selected_ids
 

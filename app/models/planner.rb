@@ -13,35 +13,32 @@ class Planner
       planner.plan(date) if planner
     end
 
-    def plan_shift_and_update_queue(shift, queue, number_of_peple, skip_ids)
-      selected_ids = queue.member_ids.shift(number_of_peple)
+    def plan_shift_and_update_queue(shift, queue, number_of_people, skip_ids)
+      selected_ids = queue.member_ids.shift(number_of_people)
+      members = Member.find(selected_ids)
       skipped_ids = []
-      sex_harmonized = false
-      until (selected_ids & skip_ids).empty? do
-        skipped_ids += selected_ids & skip_ids
-        selected_ids -= skipped_ids
-        if selected_ids.size < number_of_peple
-          selected_ids << queue.member_ids.shift(number_of_peple - selected_ids.size)
+      begin
+        previous_selected_ids = selected_ids.clone
+        unless (selected_ids & skip_ids).empty?
+          skipped_ids += selected_ids & skip_ids
+          selected_ids -= skipped_ids
+          if selected_ids.size < number_of_people
+            selected_ids += queue.member_ids.shift(number_of_people - selected_ids.size)
+          end
         end
-        harmonize_sex(selected_ids, skipped_ids, queue)
-        sex_harmonized = true
-      end
+        members = Member.find(selected_ids)
 
-      harmonize_sex(selected_ids, skipped_ids, queue) unless sex_harmonized
+        unless (0.3..0.7).cover?(members.select(&:woman).size.to_f / members.size)
+          skipped_ids << selected_ids.slice!(-1)
+          selected_ids << queue.member_ids.shift
+        end
+        members = Member.find(selected_ids)
+      end while previous_selected_ids != selected_ids
 
-      shift.members << Member.find(selected_ids)
-      queue.member_ids << selected_ids
+      shift.members += members
+      queue.member_ids += selected_ids
       queue.member_ids.unshift(skipped_ids).flatten!
       queue.save!
-    end
-
-    def harmonize_sex(selected_ids, skipped_ids, queue)
-      members = Member.find(selected_ids)
-      unless (0.3..0.7).cover?(members.count(&:woman?).to_f / members.count)
-        skipped_ids << selected_ids.slice!(-1)
-        selected_ids << queue.member_ids.shift
-        members = Member.find(selected_ids)
-      end
     end
   end
 end

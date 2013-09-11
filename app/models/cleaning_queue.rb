@@ -13,18 +13,12 @@ class CleaningQueue < ActiveRecord::Base
 
   def member_created(member)
     if add_member? member
-      last_two = Member.find(member_ids.last(2))
-      if last_two[0].woman? == last_two[1].woman? && last_two[1] != member.woman?
-        members_id.insert -2, member.id
-      else
-        member_ids << member.id
-      end
+      member_ids << member.id
       save!
     end
   end
 
   def member_updated(member)
-    binding.pry
     if remove_member?(member) && member_ids.include?(member.id)
       member_ids.delete member.id
       save!

@@ -29,7 +29,8 @@ class Planner
         members = Member.find(selected_ids)
 
         unless (0.3..0.7).cover?(members.select(&:woman).size.to_f / members.size)
-          skipped_ids << selected_ids.slice!(-1)
+          skip_woman = members.select(&:woman).size > members.reject(&:woman).size
+          skipped_ids << selected_ids.delete(members.reverse.find {|m| m.woman == skip_woman }.id)
           selected_ids << queue.member_ids.shift
         end
 

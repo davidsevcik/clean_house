@@ -36,8 +36,7 @@ class Planner
       end while previous_selected_ids != selected_ids
 
       shift.members += members
-      queue.member_ids += selected_ids
-      queue.member_ids.unshift(skipped_ids).flatten!
+      queue.member_ids = skipped_ids + queue.member_ids + selected_ids
       queue.save!
     end
   end
@@ -51,7 +50,7 @@ class WorkdayPlanner < Planner
 
   def self.plan(date)
     shift = Shift.create(start_at: date, end_at: date)
-    last_weekends_ids = WorkdayQueue.first.member_ids.last(12)
+    last_weekends_ids = WeekendQueue.first.member_ids.last(10)
     plan_shift_and_update_queue(shift, WorkdayQueue.first, 2, last_weekends_ids)
   end
 end

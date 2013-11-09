@@ -8,6 +8,7 @@ CleanHouse::Application.routes.draw do
     collection do
       post 'regenerate'
       get 'print'
+      get 'statistics'
     end
   end
 

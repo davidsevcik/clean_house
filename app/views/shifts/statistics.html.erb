@@ -1,0 +1,23 @@
+<div class="page-header clearfix">
+  <h1 class="pull-left">Statistiky</h1>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Jméno</th>
+      <th>Naplánovaných úklidů ve všední den</th>
+      <th>Naplánovaných úklidů o víkendu</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @statistics.each do |s| %>
+      <tr>
+        <td><%= s.name %></td>
+        <td><%= s.workday_count %></td>
+        <td><%= s.weekend_count %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

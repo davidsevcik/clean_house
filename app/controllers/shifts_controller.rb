@@ -1,4 +1,7 @@
 # encoding: utf-8
+
+MemberStatistics = Struct.new(:name, :workday_count, :weekend_count)
+
 class ShiftsController < ApplicationController
   before_filter :login_required, except: [:index]
 
@@ -75,6 +78,17 @@ class ShiftsController < ApplicationController
     @date = Date.new(year, month)
   end
 
+
+  def statistics
+    workday_shift = Shift.where(name: 'workday')
+    weekend_shift = Shift.where(name: 'weekend')
+    @statistics = Member.regulars.map do |member|
+      workday_num = workday_shift.select {|shift| shift.member_ids.include?(member.id) }.size
+      weekend_num = weekend_shift.select {|shift| shift.member_ids.include?(member.id) }.size
+      MemberStatistics.new member.name, workday_num, weekend_num
+    end
+    @statistics.sort_by! &:name
+  end
 
 end
 

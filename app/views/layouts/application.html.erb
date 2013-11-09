@@ -17,7 +17,8 @@
           <%= link_to 'Clean Diamond Way House', root_path, class: 'brand' %>
           <div class="nav-collapse">
             <ul class="nav">
-              <%= content_tag :li, link_to('Kalendář', root_path), :class => (params[:controller] == 'shifts' && params[:action] != 'print' ? 'active' : nil) %>
+              <%= content_tag :li, link_to('Kalendář', root_path), :class => (params[:controller] == 'shifts' && !%w(print statistics).include?(params[:action]) ? 'active' : nil) %>
+              <%= content_tag :li, link_to('Statistiky', statistics_shifts_path), :class => (params[:controller] == 'shifts' && params[:action] == 'statistics' ? 'active' : nil) %>
               <% if user_logged_in? %>
                 <%= content_tag :li, link_to('Členové', members_path), :class => (params[:controller] == 'members' ? 'active' : nil) %>
               <% end -%>

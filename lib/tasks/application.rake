@@ -43,5 +43,14 @@ task :send_reminders, [:date] => :environment do |t, args|
       end
     end
   end
+end
+
+
+task :check => :environment do
+  Member.regulars.map do |member|
+    workday_num = Shift.where(name: 'workday').select {|shift| shift.member_ids.include?(member.id) }.size
+    weekend_num = Shift.where(name: 'weekend').select {|shift| shift.member_ids.include?(member.id) }.size
+    puts "#{workday_num}, #{weekend_num} - #{member.name}"
+  end
 
 end

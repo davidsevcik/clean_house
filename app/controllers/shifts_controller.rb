@@ -3,7 +3,7 @@
 MemberStatistics = Struct.new(:name, :workday_count, :weekend_count)
 
 class ShiftsController < ApplicationController
-  before_filter :login_required, except: [:index]
+  before_filter :login_required, except: [:index, :statistics]
 
   def index
     month = (params[:month] || (Time.zone || Time).now.month).to_i

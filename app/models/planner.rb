@@ -50,7 +50,8 @@ class Planner
 
       # binding.pry if shift.members.size < number_of_people
 
-      queue.member_ids = (skipped_ids + queue.member_ids + selected_ids + Member.regulars.map(&:id)).compact.uniq
+      queue.member_ids = (skipped_ids + queue.member_ids + selected_ids).compact.uniq
+      queue.member_ids = (Member.regulars.map(&:id) - queue.member_ids) + queue.member_ids
       queue.save!
     end
   end

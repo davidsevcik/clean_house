@@ -8,16 +8,17 @@ class UserSessionsController < ApplicationController
 
   def create
     @session = UserSession.new(params[:user_session])
-      if @session.valid?
-        user_login
-        redirect_to members_path, notice: 'Přihlášení bylo úspěšné.'
-      else
-        render action: "new"
-      end
+    if @session.valid?
+      user_login(@session.place)
+      redirect_to members_path, notice: 'Přihlášení bylo úspěšné.'
+    else
+      render action: "new"
+    end
   end
 
   def destroy
+    place = current_place
     user_logout
-    redirect_to root_path
+    redirect_to calendar_path(place: place.name)
   end
 end

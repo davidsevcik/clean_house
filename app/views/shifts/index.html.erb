@@ -2,9 +2,9 @@
   <h1 class="pull-left">Kalendář úklidů</h1>
 
   <h2 class="pull-right">
-    <%= link_to '&lt;'.html_safe, shifts_path(year: @prev_date.year, month: @prev_date.month), :class => 'btn btn-small' %>
+    <%= link_to '&lt;'.html_safe, calendar_path(year: @prev_date.year, month: @prev_date.month), :class => 'btn btn-small' %>
     <%= I18n.l @date, format: '%B %Y' %>
-    <%= link_to '&gt;'.html_safe, shifts_path(year: @next_date.year, month: @next_date.month), :class => 'btn btn-small' %>
+    <%= link_to '&gt;'.html_safe, calendar_path(year: @next_date.year, month: @next_date.month), :class => 'btn btn-small' %>
   </h2>
 </div>
 

@@ -13,23 +13,24 @@ class ShiftsController < ApplicationController
     @prev_date = @date.prev_month
     @next_date = @date.next_month
 
-    @shifts = Shift.around_month(year, month).includes(:members)
+    place = Place.where(name: params[:place]).first
+    @shifts = Shift.for_place(place).around_month(year, month).includes(:members)
   end
 
 
   def new
-    @shift = Shift.new
+    @shift = Shift.for_place(current_place).new
     @shift.start_at = @shift.end_at = params[:start_at] if params[:start_at]
   end
 
 
   def edit
-    @shift = Shift.find(params[:id])
+    @shift = Shift.for_place(current_place).find(params[:id])
   end
 
 
   def create
-    @shift = Shift.new(params[:shift])
+    @shift = Shift.for_place(current_place).new(params[:shift])
 
     if @shift.save
       redirect_to return_or(shifts_path), notice: "Směna přidána."
@@ -40,7 +41,7 @@ class ShiftsController < ApplicationController
 
 
   def update
-    @shift = Shift.find(params[:id])
+    @shift = Shift.for_place(current_place).find(params[:id])
 
     if @shift.update_attributes(params[:shift])
       redirect_to return_or(shifts_path), notice: "Směna upravena."
@@ -51,7 +52,7 @@ class ShiftsController < ApplicationController
 
 
   def destroy
-    @shift = Shift.find(params[:id])
+    @shift = Shift.for_place(current_place).find(params[:id])
     @shift.destroy
 
     redirect_to return_or(shifts_path), notice: "Směna smazána."
@@ -62,11 +63,11 @@ class ShiftsController < ApplicationController
     from = Date.new(params[:from][:year].to_i, params[:from][:month].to_i, params[:from][:day].to_i)
     to = Date.new(params[:to][:year].to_i, params[:to][:month].to_i, params[:to][:day].to_i)
 
-    Shift.where('start_at >= ?', from).delete_all
+    Shift.for_place(current_place).where('start_at >= ?', from).delete_all
 
     (from..to).each do |date|
       # puts "Plannning #{date.to_s}"
-      Planner.auto_plan(date)
+      Planner.auto_plan(date, current_place)
     end
     redirect_to shifts_path
   end
@@ -82,7 +83,8 @@ class ShiftsController < ApplicationController
   def statistics
     workday_shift = Shift.where(name: 'workday')
     weekend_shift = Shift.where(name: 'weekend')
-    @statistics = Member.regulars.map do |member|
+    place = Place.where(name: params[:place]).first
+    @statistics = Member.of_place(place).regulars.map do |member|
       workday_num = workday_shift.select {|shift| shift.member_ids.include?(member.id) }.size
       weekend_num = weekend_shift.select {|shift| shift.member_ids.include?(member.id) }.size
       MemberStatistics.new member.name, workday_num, weekend_num

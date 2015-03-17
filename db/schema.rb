@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130505205436) do
+ActiveRecord::Schema.define(:version => 20150222220016) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -52,15 +52,10 @@ ActiveRecord::Schema.define(:version => 20130505205436) do
     t.datetime "updated_at", :null => false
     t.string   "type"
     t.text     "member_ids"
+    t.integer  "place_id"
   end
 
-  create_table "member_in_queues", :force => true do |t|
-    t.integer  "member_id"
-    t.integer  "queue_id"
-    t.integer  "position"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
+  add_index "cleaning_queues", ["place_id"], :name => "index_cleaning_queues_on_place_id"
 
   create_table "member_in_shifts", :force => true do |t|
     t.integer "shift_id"
@@ -77,6 +72,18 @@ ActiveRecord::Schema.define(:version => 20130505205436) do
     t.datetime "created_at",                    :null => false
     t.datetime "updated_at",                    :null => false
     t.integer  "position"
+    t.integer  "place_id"
+  end
+
+  add_index "members", ["place_id"], :name => "index_members_on_place_id"
+
+  create_table "places", :force => true do |t|
+    t.string   "name"
+    t.string   "title"
+    t.string   "login"
+    t.string   "password"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "shifts", :force => true do |t|
@@ -85,6 +92,9 @@ ActiveRecord::Schema.define(:version => 20130505205436) do
     t.date     "end_at"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "place_id"
   end
+
+  add_index "shifts", ["place_id"], :name => "index_shifts_on_place_id"
 
 end

@@ -8,8 +8,8 @@ class Planner
       raise "Have to be implemented"
     end
 
-    def auto_plan(date)
-      planner = Planner.subclasses.detect {|p| p.applicable?(date) }
+    def auto_plan(date, place = nil)
+      planner = Planner.subclasses.detect {|p| p.applicable?(date, place) }
       planner.plan(date) if planner
     end
 
@@ -54,36 +54,5 @@ class Planner
       queue.member_ids = (Member.regulars.map(&:id) - queue.member_ids) + queue.member_ids
       queue.save!
     end
-  end
-end
-
-
-class WorkdayPlanner < Planner
-  def self.applicable?(date)
-    (1..4).include? date.wday
-  end
-
-  def self.plan(date)
-    shift = Shift.create(name: 'workday', start_at: date, end_at: date)
-    last_weekends_ids = WeekendQueue.first.member_ids.last(20)
-    plan_shift_and_update_queue(shift, WorkdayQueue.first, 2, last_weekends_ids)
-  end
-end
-
-
-class WeekendPlanner < Planner
-  def self.applicable?(date)
-    date.wday == 5
-  end
-
-  def self.plan(date)
-    shift = Shift.create(name: 'weekend', start_at: date, end_at: date + 2)
-    resident_queue = ResidentQueue.first
-    shift.members << Member.find(resident_queue.member_ids.first)
-    resident_queue.member_ids.rotate!
-    resident_queue.save!
-
-    last_workdays_ids = WorkdayQueue.first.member_ids.last(32)
-    plan_shift_and_update_queue(shift, WeekendQueue.first, 5, last_workdays_ids)
   end
 end

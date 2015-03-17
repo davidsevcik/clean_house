@@ -3,6 +3,7 @@ class Shift < ActiveRecord::Base
 
   has_many :member_join, :class_name => "MemberInShift", :foreign_key => "shift_id", :dependent => :delete_all
   has_many :members, :through => :member_join
+  belongs_to :place
 
   scope :for_month, lambda { |year, month|
     where(:start_at => Date.new(year, month)..Date.new(year, month, -1))
@@ -11,6 +12,8 @@ class Shift < ActiveRecord::Base
   scope :around_month, lambda { |year, month|
     where :start_at => (Date.new(year, month) - 6)..(Date.new(year, month, -1) + 6)
   }
+
+  scope :for_place, lambda { |place| where(place_id: place) }
 
   after_save :save_members
 

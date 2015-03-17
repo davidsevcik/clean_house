@@ -1,6 +1,7 @@
 class CleaningQueue < ActiveRecord::Base
   attr_accessible :name, :member_ids
   serialize :member_ids, Array
+  belongs_to :place
 
   def add_member?(member)
     true
@@ -12,21 +13,21 @@ class CleaningQueue < ActiveRecord::Base
 
 
   def member_created(member)
-    if add_member? member
+    if member.cleaning_place_id == self.cleaning_place_id && add_member?(member)
       member_ids << member.id
       save!
     end
   end
 
   def member_updated(member)
-    if remove_member?(member) && member_ids.include?(member.id)
+    if member.cleaning_place_id == self.cleaning_place_id && remove_member?(member) && member_ids.include?(member.id)
       member_ids.delete member.id
       save!
     end
   end
 
   def member_destroyed(member)
-    if member_ids.include?(member.id)
+    if member.cleaning_place_id == self.cleaning_place_id && member_ids.include?(member.id)
       member_ids.delete member.id
       save!
     end

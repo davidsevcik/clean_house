@@ -1,6 +1,7 @@
 class Member < ActiveRecord::Base
   attr_accessible :active, :name, :woman, :email, :phone, :resident
   has_many :member_in_queues
+  belongs_to :place
   acts_as_list
 
   SCOPES = [:actives, :regulars, :residents]
@@ -10,6 +11,7 @@ class Member < ActiveRecord::Base
   scope :residents, where(:active => true, :resident => true).order(:position)
   scope :men, where(:woman => false)
   scope :women, where(:woman => true)
+  scope :of_place, lambda { |place| where(place_id: place) }
 
 
   after_create do

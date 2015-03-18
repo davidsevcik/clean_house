@@ -54,6 +54,12 @@ class Planner
       queue.member_ids = (Member.regulars.map(&:id) - queue.member_ids) + queue.member_ids
       queue.save!
     end
+
+    def last_member_ids_in_queue(queue_name, shifts_count)
+      Shift.joins(:member_join).where(name: queue_name).last(shifts_count).inject([]) do |sum, s|
+        sum += s.member_ids
+      end.uniq
+    end
   end
 end
 
@@ -65,7 +71,7 @@ class WorkdayPlanner < Planner
 
   def self.plan(date)
     shift = Shift.create(name: 'workday', start_at: date, end_at: date)
-    last_weekends_ids = WeekendQueue.first.member_ids.last(20)
+    last_weekends_ids = last_member_ids_in_queue('weekend', 4)
     plan_shift_and_update_queue(shift, WorkdayQueue.first, 2, last_weekends_ids)
   end
 end
@@ -83,7 +89,7 @@ class WeekendPlanner < Planner
     resident_queue.member_ids.rotate!
     resident_queue.save!
 
-    last_workdays_ids = WorkdayQueue.first.member_ids.last(32)
+    last_workdays_ids = last_member_ids_in_queue('workday', 16)
     plan_shift_and_update_queue(shift, WeekendQueue.first, 5, last_workdays_ids)
   end
 end

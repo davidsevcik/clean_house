@@ -21,8 +21,10 @@ class CleaningQueue < ActiveRecord::Base
   def member_updated(member)
     if remove_member?(member) && member_ids.include?(member.id)
       member_ids.delete member.id
-      save!
+    elsif add_member?(member) && !member_ids.include?(member.id)
+      member_ids << member.id
     end
+    save!
   end
 
   def member_destroyed(member)

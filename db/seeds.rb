@@ -4,22 +4,22 @@ seeds_path = Rails.root.join('db', 'seeds')
 
 File.open(seeds_path.join 'women.txt').each_line do |line|
   name = line.strip()
-  Member.create(name: name, email: "david.sevcik@gmail.com", phone: '123456789', woman: true)
+  Member.create(name: name, email: "test@example.com", phone: '123456789', woman: true)
 end
 
 File.open(seeds_path.join 'men.txt').each_line do |line|
   name = line.strip()
-  Member.create(name: name, email: "david.sevcik@gmail.com", phone: '123456789', woman: false)
+  Member.create(name: name, email: "test@example.com", phone: '123456789', woman: false)
 end
 
 File.open(seeds_path.join 'unactive.txt').each_line do |line|
   name = line.strip()
-  Member.create(name: name, email: "david.sevcik@gmail.com", phone: '123456789', active: false)
+  Member.create(name: name, email: "test@example.com", phone: '123456789', active: false)
 end
 
 File.open(seeds_path.join 'residents.txt').each_line do |line|
   name = line.strip()
-  Member.create(name: name, email: "david.sevcik@gmail.com", phone: '123456789', resident: true)
+  Member.create(name: name, email: "test@example.com", phone: '123456789', resident: true)
 end
 
 
@@ -46,5 +46,3 @@ start = Date.today #new(2012, 9)
 (start..(start + 90)).each do |date|
   Shift.auto_plan(date)
 end
-
-

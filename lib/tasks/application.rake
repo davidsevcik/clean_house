@@ -33,7 +33,6 @@ task :send_reminders, [:date] => :environment do |t, args|
         unless emails.empty?
           Pony.mail(
             to: emails,
-            bcc: 'david.sevcik@gmail.com',
             subject: "#{label.capitalize} máš úklid v centru",
             body: body % [label, dates, member_names]
           )

@@ -126,7 +126,7 @@ PLATFORMS
 
 DEPENDENCIES
   acts_as_list
-  bootstrap-sass
+  bootstrap-sass (~> 3.0)
   jquery-rails
   pg
   pony

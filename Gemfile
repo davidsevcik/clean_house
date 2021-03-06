@@ -19,6 +19,7 @@ gem 'pg'
 # in production environments by default.
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
+  gem "bootstrap-sass", '~> 3.0'
   # gem 'coffee-rails', '~> 3.2.1'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
@@ -78,7 +79,6 @@ group :development, :test do
   # gem 'pry-rails'
 end
 
-gem "bootstrap-sass"
 # gem "simple_form"
 # gem "will_paginate", ">= 3.0.3"
 

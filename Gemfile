@@ -5,7 +5,7 @@ ruby "~> 2.6"
 
 source 'https://rubygems.org'
 
-gem 'activerecord-postgresql-adapter'
+gem 'postgres-pr'
 gem 'rails', '~> 3.2'
 gem 'thin'
 

@@ -5,6 +5,7 @@ ruby "~> 2.6"
 
 source 'https://rubygems.org'
 
+gem 'activerecord-postgresql-adapter'
 gem 'rails', '~> 3.2'
 gem 'thin'
 
@@ -12,7 +13,7 @@ gem 'thin'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 # gem 'mysql2', :group => :development
-gem 'pg'
+# gem 'pg'
 
 
 # Gems used only for assets and not required

@@ -14,7 +14,8 @@ RUN apk add --no-cache \
         postgresql-dev \
         tzdata \
         bash \
-        less
+        less \
+        nodejs
 
 WORKDIR /app/
 
